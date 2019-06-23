@@ -1,6 +1,6 @@
 {
   "name": "sachan-bot",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Multifunctional Telegram bot",
   "author": "kidonng",
   "homepage": "https://github.com/kidonng/sachan#readme",
@@ -15,7 +15,7 @@
     "url": "git+https://github.com/kidonng/sachan.git"
   },
   "dependencies": {
-    "form-data": "2.4.0",
+    "form-data": "2.5.0",
     "got": "9.6.0",
     "ip-regex": "4.1.0",
     "outdent": "0.7.0",
