@@ -1,32 +1,29 @@
-<h1 align="center">Sachan</h1>
+# 🌸 Sachan
 
-<div align="center">
+A multifunctional Telegram bot, built with [Telegraf](https://telegraf.js.org/). It is highly extensible and suitable as a scaffold/reference for your own bot.
 
-[![npm](https://img.shields.io/npm/v/sachan-bot.svg?style=for-the-badge)](https://npm.im/sachan-bot)
-![npm](https://img.shields.io/npm/dt/sachan-bot.svg?style=for-the-badge)
-[![GitHub](https://img.shields.io/github/license/kidonng/sachan.svg?style=for-the-badge)](./LICENSE)
+A deployment of Sachan is live [@sachanbot](https://t.me/sachanbot).
 
-English | [简体中文](README-zh-CN.md)
+## Setup
 
-</div>
+### Using [Vercel](http://vercel.com/) and Webhooks (recommended)
 
-Sachan is a multifunctional Telegram bot. For detailed info, see [help](./src/help.js).
+1. Add the following secrets to your Vercel account (or [create one](https://vercel.com/signup)):
 
-> Demo bot [@sachanbot](https://t.me/sachanbot) is currently offline.
+   - `sachan_bot_bot_token`: Telegram bot token. The bot should be added to your **public** channel first. [Click here](http://t.me/BotFather) to create a bot.
+   - **(Optional)** `sachan_bot_deepai_api_key`: [DeepAI](https://deepai.org/) API key for `/waifu2x` command.
 
-## Install
+2. [Deploy to Vercel](https://vercel.com/import/project?template=http://github.com/kidonng/sachan-bot)
+3. [Set up the Webhook](https://core.telegram.org/bots/api#setwebhook): `https://api.telegram.org/bot<token>/setWebhook?url=<url>` (**Make sure to use a private URL!**)
 
-- npm: `npm i sachan-bot`
-- Yarn: `yarn add sachan-bot`
+### Using polling
 
-## Usage
+1. Add the following environment variables:
+   - `BOT_TOKEN`: Telegram bot token. [Click here](http://t.me/BotFather) to create a bot.
+   - **(Optional)** `DEEPAI_API_KEY`: [DeepAI](https://deepai.org/) API key for `/waifu2x` command.
+2. Install `sachan-bot` npm package
+3. Run `sachan-bot` to launch the bot
 
-To launch the bot, you must set the following environment variables:
+## Why the name
 
-- `TELEGRAM_BOT_TOKEN`
-- [`DEEPAI_API_KEY`](https://deepai.org/) (optional, if you need waifu2x function)
-
-## Development
-
-- Setup `yarn`
-- Launch `node index.js`
+That's how [Oomuro Nadeshiko](https://yuruyuri.fandom.com/wiki/Nadeshiko_%C5%8Cmuro) [calls](https://dynasty-scans.com/images/1262#:~:text=Sachan%20is%20Sakurako) her sister Sakurako.

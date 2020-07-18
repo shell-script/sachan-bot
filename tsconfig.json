@@ -1,0 +1,12 @@
+{
+  "extends": "@sindresorhus/tsconfig",
+  "compilerOptions": {
+    "target": "ES2018",
+    "lib": ["ES2018"],
+    "outDir": "dist",
+    "declaration": false,
+    "esModuleInterop": true,
+    "noImplicitReturns": false
+  },
+  "include": ["src"]
+}
