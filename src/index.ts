@@ -6,7 +6,7 @@ import { space } from './space'
 import { start } from './start'
 import { unu } from './unu'
 import { waifu2x } from './waifu2x'
-import { IContext, message } from './utils'
+import { IContext, message, request } from './utils'
 
 const { BOT_TOKEN, IS_VERCEL } = process.env
 
@@ -24,9 +24,16 @@ unu(telegraf)
 waifu2x(telegraf)
 
 telegraf.on('message', (ctx) => {
-  if (message.handler) {
-    message.handler(ctx)
-    message.handler = false
+  const { handler } = message
+  if (handler) {
+    delete message.handler
+    return handler(ctx)
+  }
+
+  // Workaround for skipping unhandled messages
+  // https://github.com/telegraf/telegraf/issues/1089
+  if (ctx.telegram.webhookReply) {
+    request.handler!.status(200).end()
   }
 })
 
