@@ -26,4 +26,4 @@ A deployment of Sachan is live [@sachanbot](https://t.me/sachanbot).
 
 ## Why the name
 
-That's how [Oomuro Nadeshiko](https://yuruyuri.fandom.com/wiki/Nadeshiko_%C5%8Cmuro) [calls](https://dynasty-scans.com/images/1262#:~:text=Sachan%20is%20Sakurako) her sister Sakurako.
+That's how [Himawari](https://yuruyuri.fandom.com/wiki/Himawari_Furutani) calls [Sakurako](https://yuruyuri.fandom.com/wiki/Sakurako_%C5%8Cmuroac).
