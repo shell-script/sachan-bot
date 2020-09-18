@@ -37,4 +37,7 @@ telegraf.on('message', (ctx) => {
   }
 })
 
-if (!IS_VERCEL) telegraf.launch()
+if (!IS_VERCEL) {
+  telegraf.webhookReply = false
+  telegraf.launch()
+}
