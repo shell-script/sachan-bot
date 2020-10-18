@@ -14,6 +14,9 @@ export const help: Component = (telegraf) => {
         */space* <Text>
         Insert whitespaces between CJK and half-width characters.
 
+        */time* <Region>
+        Get date and time info of UTC, China and given region.
+
         */unu* <Link>
         Shorten a link using \`u.nu\`.
 
