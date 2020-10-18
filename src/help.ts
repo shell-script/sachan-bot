@@ -5,16 +5,16 @@ export const help: Component = (telegraf) => {
   telegraf.help(({ replyWithMarkdownV2 }) => {
     replyWithMarkdownV2(
       escape(outdent`
-        */ip*
+        */ip* <IP>
         Get location data associated with a IP address.
 
         */json*
         Get formatted JSON data of a message.
 
-        */space*
+        */space* <Text>
         Insert whitespaces between CJK and half-width characters.
 
-        */unu*
+        */unu* <Link>
         Shorten a link using \`u.nu\`.
 
         */waifu2x*

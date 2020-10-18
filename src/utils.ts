@@ -1,6 +1,7 @@
 import { Telegraf, Context } from 'telegraf/typings'
 import { ExtraEditMessage } from 'telegraf/typings/telegram-types'
 import { MiddlewareFn } from 'telegraf/typings/composer'
+import { User } from 'telegram-typings'
 import { NowResponse } from '@vercel/node'
 
 export interface IContext extends Context {
@@ -25,3 +26,8 @@ export const escape = (text: string) =>
   )
 
 export const handlers: { response?: NowResponse; message?: MessageHandler } = {}
+
+export const botInfo: Partial<User> = {}
+
+export const command = (name: string) =>
+  RegExp(`^/${name}(?:@${botInfo.username})? (.+)`)
