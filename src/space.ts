@@ -1,7 +1,7 @@
 import { spacing } from 'pangu'
-import { Component, message, Handler } from './utils'
+import { Component, handlers, MessageHandler } from './utils'
 
-const handler: Handler = ({ message, reply }) => {
+const handler: MessageHandler = ({ message, reply }) => {
   if (!message?.text) return
 
   reply(spacing(message.text))
@@ -9,7 +9,7 @@ const handler: Handler = ({ message, reply }) => {
 
 export const space: Component = (telegraf) => {
   telegraf.command('space', ({ reply }) => {
-    message.handler = handler
+    handlers.message = handler
     reply('Send me a text which you want to insert whitespaces in.')
   })
 }

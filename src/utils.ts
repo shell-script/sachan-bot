@@ -14,11 +14,9 @@ export interface Component {
   (telegraf: Telegraf<IContext>): void
 }
 
-export interface Handler {
+export interface MessageHandler {
   (ctx: IContext): void
 }
-
-export const message: { handler?: Handler } = {}
 
 // https://stackoverflow.com/a/60145565
 export const escape = (text: string) =>
@@ -26,4 +24,4 @@ export const escape = (text: string) =>
     y ? y : '\\' + x
   )
 
-export const request: { handler?: NowResponse } = {}
+export const handlers: { response?: NowResponse; message?: MessageHandler } = {}

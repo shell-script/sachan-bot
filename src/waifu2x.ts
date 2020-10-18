@@ -1,11 +1,11 @@
 import got from 'got'
 import FormData from 'form-data'
 import { last } from 'lodash'
-import { Component, message, Handler, escape } from './utils'
+import { Component, handlers, MessageHandler, escape } from './utils'
 
 const { DEEPAI_API_KEY } = process.env
 
-const handler: Handler = async ({
+const handler: MessageHandler = async ({
   message,
   telegram,
   reply,
@@ -45,7 +45,7 @@ export const waifu2x: Component = (telegraf) => {
       return
     }
 
-    message.handler = handler
+    handlers.message = handler
     reply('Send me a photo you want to upscale.')
   })
 }

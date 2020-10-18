@@ -1,9 +1,13 @@
 import got from 'got'
 import isUrl from 'is-url-superb'
 import outdent from 'outdent'
-import { Component, message, Handler, escape } from './utils'
+import { Component, handlers, MessageHandler, escape } from './utils'
 
-const handler: Handler = async ({ message, reply, replyWithMarkdownV2 }) => {
+const handler: MessageHandler = async ({
+  message,
+  reply,
+  replyWithMarkdownV2,
+}) => {
   const text = message?.text
   if (!text) return
   if (!isUrl(text)) return reply(`That's an unvalid URL.`)
@@ -29,7 +33,7 @@ const handler: Handler = async ({ message, reply, replyWithMarkdownV2 }) => {
 
 export const unu: Component = (telegraf) => {
   telegraf.command('unu', ({ reply }) => {
-    message.handler = handler
+    handlers.message = handler
     reply('Send me a link which you want to shorten.')
   })
 }

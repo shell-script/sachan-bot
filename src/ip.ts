@@ -1,9 +1,9 @@
 import got from 'got'
 import isIp from 'is-ip'
 import outdent from 'outdent'
-import { Component, message, Handler, escape } from './utils'
+import { Component, handlers, MessageHandler, escape } from './utils'
 
-const handler: Handler = async ({
+const handler: MessageHandler = async ({
   message,
   telegram,
   reply,
@@ -42,7 +42,7 @@ const handler: Handler = async ({
 
 export const ip: Component = (telegraf) => {
   telegraf.command('ip', ({ reply }) => {
-    message.handler = handler
+    handlers.message = handler
     reply('Send me a IPv4/IPv6 address which you want to get location data of.')
   })
 }
