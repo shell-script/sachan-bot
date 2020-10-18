@@ -13,10 +13,7 @@ import { IContext, botInfo } from './utils'
 const { BOT_TOKEN, IS_VERCEL } = process.env
 
 export const telegraf = new Telegraf<IContext>(BOT_TOKEN!)
-
-telegraf.telegram.getMe().then((user) => {
-  Object.assign(botInfo, user)
-
+export const register = () => {
   const components = [
     help,
     ip,
@@ -29,9 +26,14 @@ telegraf.telegram.getMe().then((user) => {
     fallback,
   ]
   for (const component of components) component(telegraf)
-})
+}
 
 if (!IS_VERCEL) {
   telegraf.webhookReply = false
-  telegraf.launch()
+
+  telegraf.telegram.getMe().then((user) => {
+    Object.assign(botInfo, user)
+    register()
+    telegraf.launch()
+  })
 }
