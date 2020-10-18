@@ -20,21 +20,22 @@ export const ip: Component = (telegraf) => {
       }
       if (!isIp(text)) return reply('Please enter a valid IP address.', extra)
 
-      // https://ip.sb/api/
-      const {
-        ip,
-        asn,
-        organization,
-        city,
-        region,
-        country,
-        latitude,
-        longitude,
-      } = await got(`https://api.ip.sb/geoip/${text}`).json()
+      try {
+        // https://ip.sb/api/
+        const {
+          ip,
+          asn,
+          organization,
+          city,
+          region,
+          country,
+          latitude,
+          longitude,
+        } = await got(`https://api.ip.sb/geoip/${text}`).json()
 
-      telegram.webhookReply = false
-      await replyWithMarkdownV2(
-        escape(outdent`
+        telegram.webhookReply = false
+        await replyWithMarkdownV2(
+          escape(outdent`
           *IP* ${ip}
           *ASN* ${asn ? `AS${asn} (${organization})` : 'Unknown'}
           *Location* ${
@@ -45,10 +46,13 @@ export const ip: Component = (telegraf) => {
               : 'Unknown'
           }
         `),
-        extra
-      )
-      telegram.webhookReply = true
-      if (asn) replyWithLocation(latitude, longitude, extra)
+          extra
+        )
+        telegram.webhookReply = true
+        if (asn) replyWithLocation(latitude, longitude, extra)
+      } catch (e) {
+        reply(JSON.parse(e.response.body).message, extra)
+      }
     }
   )
 }
