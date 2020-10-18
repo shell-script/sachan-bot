@@ -1,7 +1,7 @@
 import got from 'got'
 import FormData from 'form-data'
 import { last } from 'lodash'
-import { Component, handlers, MessageHandler, escape } from './utils'
+import { Component, handlers, MessageHandler, escape, command } from './utils'
 
 const { DEEPAI_API_KEY } = process.env
 
@@ -46,17 +46,20 @@ const handler: MessageHandler = async ({
 }
 
 export const waifu2x: Component = (telegraf) => {
-  telegraf.command('waifu2x', ({ message, reply, replyWithMarkdownV2 }) => {
-    const extra = {
-      reply_to_message_id: message!.message_id,
-    }
+  telegraf.hears(
+    command('waifu2x', true),
+    ({ message, reply, replyWithMarkdownV2 }) => {
+      const extra = {
+        reply_to_message_id: message!.message_id,
+      }
 
-    if (!DEEPAI_API_KEY) {
-      replyWithMarkdownV2(escape('No `DEEPAI_API_KEY` provided.'), extra)
-      return
-    }
+      if (!DEEPAI_API_KEY) {
+        replyWithMarkdownV2(escape('No `DEEPAI_API_KEY` provided.'), extra)
+        return
+      }
 
-    handlers.message = handler
-    reply('Send me a photo you want to upscale.', extra)
-  })
+      handlers.message = handler
+      reply('Send me a photo you want to upscale.', extra)
+    }
+  )
 }

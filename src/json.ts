@@ -1,5 +1,5 @@
 import { format } from 'prettier'
-import { Component, handlers, MessageHandler } from './utils'
+import { Component, handlers, MessageHandler, command } from './utils'
 
 const handler: MessageHandler = ({ message, replyWithMarkdownV2 }) => {
   const extra = {
@@ -13,7 +13,7 @@ const handler: MessageHandler = ({ message, replyWithMarkdownV2 }) => {
 }
 
 export const json: Component = (telegraf) => {
-  telegraf.command('json', ({ message, reply }) => {
+  telegraf.hears(command('json', true), ({ message, reply }) => {
     handlers.message = handler
 
     const extra = {
