@@ -9,12 +9,16 @@ export const ip: Component = (telegraf) => {
     async ({
       match,
       telegram,
+      message,
       reply,
       replyWithMarkdownV2,
       replyWithLocation,
     }) => {
       const text = match![1]
-      if (!isIp(text)) return reply('Please enter a valid IP address.')
+      const extra = {
+        reply_to_message_id: message!.message_id,
+      }
+      if (!isIp(text)) return reply('Please enter a valid IP address.', extra)
 
       // https://ip.sb/api/
       const {
@@ -40,10 +44,11 @@ export const ip: Component = (telegraf) => {
                 }${country} (${latitude},${longitude})`
               : 'Unknown'
           }
-        `)
+        `),
+        extra
       )
       telegram.webhookReply = true
-      if (asn) replyWithLocation(latitude, longitude)
+      if (asn) replyWithLocation(latitude, longitude, extra)
     }
   )
 }

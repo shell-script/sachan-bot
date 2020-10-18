@@ -2,7 +2,11 @@ import outdent from 'outdent'
 import { Component, escape } from './utils'
 
 export const help: Component = (telegraf) => {
-  telegraf.help(({ replyWithMarkdownV2 }) => {
+  telegraf.help(({ message, replyWithMarkdownV2 }) => {
+    const extra = {
+      reply_to_message_id: message!.message_id,
+    }
+
     replyWithMarkdownV2(
       escape(outdent`
         */ip* <IP>
@@ -23,7 +27,8 @@ export const help: Component = (telegraf) => {
         */waifu2x*
         Upscale a photo using \`waifu2x\`.
         Max resolution of a scaled photo is 1600x1600.
-      `)
+      `),
+      extra
     )
   })
 }

@@ -11,11 +11,15 @@ const handler: MessageHandler = async ({
   reply,
   replyWithDocument,
 }) => {
-  if (!message?.photo) return
-  telegram.webhookReply = false
-  await reply('Processing...')
+  const extra = {
+    reply_to_message_id: message!.message_id,
+  }
+  if (!message!.photo) return
 
-  const { file_id } = last(message.photo)!
+  telegram.webhookReply = false
+  await reply('Processing...', extra)
+
+  const { file_id } = last(message!.photo)!
   const image = await telegram.getFileLink(file_id)
 
   const form = new FormData()
@@ -32,20 +36,27 @@ const handler: MessageHandler = async ({
     .json()
 
   telegram.webhookReply = true
-  replyWithDocument({
-    url: output_url,
-    filename: 'waifu2x.png',
-  })
+  replyWithDocument(
+    {
+      url: output_url,
+      filename: 'waifu2x.png',
+    },
+    extra
+  )
 }
 
 export const waifu2x: Component = (telegraf) => {
-  telegraf.command('waifu2x', ({ reply, replyWithMarkdownV2 }) => {
+  telegraf.command('waifu2x', ({ message, reply, replyWithMarkdownV2 }) => {
+    const extra = {
+      reply_to_message_id: message!.message_id,
+    }
+
     if (!DEEPAI_API_KEY) {
-      replyWithMarkdownV2(escape('No `DEEPAI_API_KEY` provided.'))
+      replyWithMarkdownV2(escape('No `DEEPAI_API_KEY` provided.'), extra)
       return
     }
 
     handlers.message = handler
-    reply('Send me a photo you want to upscale.')
+    reply('Send me a photo you want to upscale.', extra)
   })
 }

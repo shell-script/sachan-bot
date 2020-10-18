@@ -6,9 +6,12 @@ import { Component, escape, command } from './utils'
 export const unu: Component = (telegraf) => {
   telegraf.hears(
     command('unu'),
-    async ({ match, reply, replyWithMarkdownV2 }) => {
+    async ({ match, message, reply, replyWithMarkdownV2 }) => {
+      const extra = {
+        reply_to_message_id: message!.message_id,
+      }
       const text = match![1]
-      if (!isUrl(text)) return reply('Please enter a valid URL.')
+      if (!isUrl(text)) return reply('Please enter a valid URL.', extra)
 
       // Final URL after redirects
       const { url } = await got(text)
@@ -25,7 +28,8 @@ export const unu: Component = (telegraf) => {
         escape(outdent`
           *Original* ${text}${text === url ? '' : `\n*Redirected* ${url}`}
           *Shortened* ${short}
-        `)
+        `),
+        extra
       )
     }
   )

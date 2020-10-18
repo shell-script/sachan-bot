@@ -44,7 +44,10 @@ const format = 'MM-DD HH:mm'
 export const time: Component = (telegraf) => {
   telegraf.hears(
     command('time', true),
-    async ({ match, replyWithMarkdownV2 }) => {
+    async ({ match, message, replyWithMarkdownV2 }) => {
+      const extra = {
+        reply_to_message_id: message!.message_id,
+      }
       const text = match![1]
       const now = dayjs()
 
@@ -52,7 +55,8 @@ export const time: Component = (telegraf) => {
         return replyWithMarkdownV2(
           `Please enter an available regions: ${Object.keys(regions)
             .map((region) => `\`${region}\``)
-            .join(', ')}`
+            .join(', ')}`,
+          extra
         )
 
       replyWithMarkdownV2(
@@ -73,7 +77,8 @@ export const time: Component = (telegraf) => {
                   )
                   .join('\n')
           }
-        `)
+        `),
+        extra
       )
     }
   )
