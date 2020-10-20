@@ -48,7 +48,7 @@ export const time: Component = (telegraf) => {
       const extra = {
         reply_to_message_id: message!.message_id,
       }
-      const text = match![1]
+      const text = match![1]?.toUpperCase()
       const now = dayjs()
 
       if (text && !regions.hasOwnProperty(text))
