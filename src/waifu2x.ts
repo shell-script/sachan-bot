@@ -47,7 +47,7 @@ const handler: MessageHandler = async ({
 
 export const waifu2x: Component = (telegraf) => {
   telegraf.hears(
-    command('waifu2x', true),
+    command('waifu2x'),
     ({ message, reply, replyWithMarkdownV2 }) => {
       const extra = {
         reply_to_message_id: message!.message_id,

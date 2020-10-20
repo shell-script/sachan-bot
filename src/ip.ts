@@ -14,11 +14,12 @@ export const ip: Component = (telegraf) => {
       replyWithMarkdownV2,
       replyWithLocation,
     }) => {
-      const text = match![1]
       const extra = {
         reply_to_message_id: message!.message_id,
       }
-      if (!isIp(text)) return reply('Please enter a valid IP address.', extra)
+      const text = match![1]
+      if (!text || !isIp(text))
+        return reply('Please enter a valid IP address.', extra)
 
       try {
         // https://ip.sb/api/

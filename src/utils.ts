@@ -29,7 +29,5 @@ export const handlers: { response?: NowResponse; message?: MessageHandler } = {}
 
 export const botInfo: Partial<User> = {}
 
-export const command = (name: string, optional = false) =>
-  RegExp(
-    `^/${name}(?:@${botInfo.username})?${optional ? '(?: (.+))?' : ' (.+)'}`
-  )
+export const command = (name: string) =>
+  RegExp(`^/${name}(?:@${botInfo.username})?(?: (.+))?`)

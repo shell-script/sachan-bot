@@ -43,7 +43,7 @@ const format = 'MM-DD HH:mm'
 
 export const time: Component = (telegraf) => {
   telegraf.hears(
-    command('time', true),
+    command('time'),
     async ({ match, message, replyWithMarkdownV2 }) => {
       const extra = {
         reply_to_message_id: message!.message_id,

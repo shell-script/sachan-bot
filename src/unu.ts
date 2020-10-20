@@ -11,7 +11,8 @@ export const unu: Component = (telegraf) => {
         reply_to_message_id: message!.message_id,
       }
       const text = match![1]
-      if (!isUrl(text)) return reply('Please enter a valid URL.', extra)
+      if (!text || !isUrl(text))
+        return reply('Please enter a valid URL.', extra)
 
       // Final URL after redirects
       const { url } = await got(text)

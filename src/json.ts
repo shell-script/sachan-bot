@@ -13,7 +13,7 @@ const handler: MessageHandler = ({ message, replyWithMarkdownV2 }) => {
 }
 
 export const json: Component = (telegraf) => {
-  telegraf.hears(command('json', true), ({ message, reply }) => {
+  telegraf.hears(command('json'), ({ message, reply }) => {
     handlers.message = handler
 
     const extra = {
