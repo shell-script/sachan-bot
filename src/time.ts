@@ -2,7 +2,8 @@ import outdent from 'outdent'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { Component, escape, command } from './utils'
+import { telegraf } from '.'
+import { escape, command } from './utils'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -41,45 +42,40 @@ const regions: Record<
 }
 const format = 'MM-DD HH:mm'
 
-export const time: Component = (telegraf) => {
-  telegraf.hears(
-    command('time'),
-    async ({ match, message, replyWithMarkdownV2 }) => {
-      const extra = {
-        reply_to_message_id: message!.message_id,
-      }
-      const text = match![1]?.toUpperCase()
-      const now = dayjs()
+telegraf.hears(command('time'), async (ctx) => {
+  const extra = {
+    reply_to_message_id: ctx.message!.message_id,
+  }
+  const text = ctx.match![1]?.toUpperCase()
+  const now = dayjs()
 
-      if (text && !regions.hasOwnProperty(text))
-        return replyWithMarkdownV2(
-          `Please enter an available regions: ${Object.keys(regions)
-            .map((region) => `\`${region}\``)
-            .join(', ')}`,
-          extra
-        )
+  if (text && !regions.hasOwnProperty(text))
+    return ctx.replyWithMarkdownV2(
+      `Please enter an available regions: ${Object.keys(regions)
+        .map((region) => `\`${region}\``)
+        .join(', ')}`,
+      extra
+    )
 
-      replyWithMarkdownV2(
-        escape(outdent`
-          *🕒 UTC* \`${now.utc().format(format)}\`
-          *🇨🇳 Beijing, China* \`${now.tz('Asia/Shanghai').format(format)}\`
-          ${
-            text
-              ? `*${regions[text].name}* \`${now
-                  .tz(regions[text].timezone)
-                  .format(format)}\``
-              : Object.values(regions)
-                  .map(
-                    (region) =>
-                      `*${region.name}* \`${now
-                        .tz(region.timezone)
-                        .format(format)}\``
-                  )
-                  .join('\n')
-          }
-        `),
-        extra
-      )
-    }
+  ctx.replyWithMarkdownV2(
+    escape(outdent`
+        *🕒 UTC* \`${now.utc().format(format)}\`
+        *🇨🇳 Beijing, China* \`${now.tz('Asia/Shanghai').format(format)}\`
+        ${
+          text
+            ? `*${regions[text]!.name}* \`${now
+                .tz(regions[text]!.timezone)
+                .format(format)}\``
+            : Object.values(regions)
+                .map(
+                  (region) =>
+                    `*${region.name}* \`${now
+                      .tz(region.timezone)
+                      .format(format)}\``
+                )
+                .join('\n')
+        }
+      `),
+    extra
   )
-}
+})

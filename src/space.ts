@@ -1,14 +1,13 @@
 import { spacing } from 'pangu'
-import { Component, command } from './utils'
+import { telegraf } from '.'
+import { command } from './utils'
 
-export const space: Component = (telegraf) => {
-  telegraf.hears(command('space'), ({ match, message, reply }) => {
-    const extra = {
-      reply_to_message_id: message!.message_id,
-    }
-    const text = match![1]
-    if (!text) return reply('Please enter a string for spacing.', extra)
+telegraf.hears(command('space'), (ctx) => {
+  const extra = {
+    reply_to_message_id: ctx.message!.message_id,
+  }
+  const text = ctx.match![1]
+  if (!text) return ctx.reply('Please enter a string for spacing.', extra)
 
-    reply(spacing(text), extra)
-  })
-}
+  ctx.reply(spacing(text), extra)
+})

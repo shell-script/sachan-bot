@@ -1,26 +1,25 @@
 import got from 'got'
 import FormData from 'form-data'
 import { last } from 'lodash'
-import { Component, handlers, MessageHandler, escape, command } from './utils'
+import { Context } from 'telegraf/typings'
+import { telegraf } from '.'
+import { handlers, escape, command } from './utils'
 
 const { DEEPAI_API_KEY } = process.env
 
-const handler: MessageHandler = async ({
-  message,
-  telegram,
-  reply,
-  replyWithDocument,
-}) => {
+const handler = async (ctx: Context) => {
   const extra = {
-    reply_to_message_id: message!.message_id,
+    reply_to_message_id: ctx.message!.message_id,
   }
-  if (!message!.photo) return
+  // Type guard
+  // https://github.com/telegraf/telegraf/issues/1388#issuecomment-791573609
+  if (!('photo' in ctx.message!)) return
 
-  telegram.webhookReply = false
-  await reply('Processing...', extra)
+  ctx.telegram.webhookReply = false
+  await ctx.reply('Processing...', extra)
 
-  const { file_id } = last(message!.photo)!
-  const image = await telegram.getFileLink(file_id)
+  const { file_id } = last(ctx.message!.photo)!
+  const image = await ctx.telegram.getFileLink(file_id)
 
   const form = new FormData()
   form.append('image', image)
@@ -35,8 +34,8 @@ const handler: MessageHandler = async ({
     })
     .json()
 
-  telegram.webhookReply = true
-  replyWithDocument(
+  ctx.telegram.webhookReply = true
+  ctx.replyWithDocument(
     {
       url: output_url,
       filename: 'waifu2x.png',
@@ -45,21 +44,16 @@ const handler: MessageHandler = async ({
   )
 }
 
-export const waifu2x: Component = (telegraf) => {
-  telegraf.hears(
-    command('waifu2x'),
-    ({ message, reply, replyWithMarkdownV2 }) => {
-      const extra = {
-        reply_to_message_id: message!.message_id,
-      }
+telegraf.hears(command('waifu2x'), (ctx) => {
+  const extra = {
+    reply_to_message_id: ctx.message!.message_id,
+  }
 
-      if (!DEEPAI_API_KEY) {
-        replyWithMarkdownV2(escape('No `DEEPAI_API_KEY` provided.'), extra)
-        return
-      }
+  if (!DEEPAI_API_KEY) {
+    ctx.replyWithMarkdownV2(escape('No `DEEPAI_API_KEY` provided.'), extra)
+    return
+  }
 
-      handlers.message = handler
-      reply('Send me a photo you want to upscale.', extra)
-    }
-  )
-}
+  handlers.message = handler
+  ctx.reply('Send me a photo you want to upscale.', extra)
+})

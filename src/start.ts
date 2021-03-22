@@ -1,18 +1,17 @@
 import outdent from 'outdent'
-import { Component, botInfo } from './utils'
+import { telegraf } from '.'
+import { botInfo } from './utils'
 
-export const start: Component = (telegraf) => {
-  telegraf.start(({ message, reply }) => {
-    const extra = {
-      reply_to_message_id: message!.message_id,
-    }
+telegraf.start((ctx) => {
+  const extra = {
+    reply_to_message_id: ctx.message!.message_id,
+  }
 
-    reply(
-      outdent`
-        Howdy! I'm ${botInfo.first_name}, a multifunctional Telegram bot.
-        Checkout my source code at https://github.com/kidonng/sachan-bot.
-      `,
-      extra
-    )
-  })
-}
+  ctx.reply(
+    outdent`
+      Howdy! I'm ${botInfo.first_name}, a multifunctional Telegram bot.
+      Checkout my source code at https://github.com/kidonng/sachan-bot.
+    `,
+    extra
+  )
+})

@@ -1,39 +1,24 @@
-import Telegraf from 'telegraf'
-import { fallback } from './fallback'
-import { help } from './help'
-import { ip } from './ip'
-import { json } from './json'
-import { space } from './space'
-import { start } from './start'
-import { time } from './time'
-import { unu } from './unu'
-import { waifu2x } from './waifu2x'
-import { IContext, botInfo } from './utils'
+import { Telegraf } from 'telegraf'
+import { botInfo } from './utils'
 
 const { BOT_TOKEN, IS_VERCEL } = process.env
 
-export const telegraf = new Telegraf<IContext>(BOT_TOKEN!)
-export const register = () => {
-  const components = [
-    help,
-    ip,
-    json,
-    space,
-    start,
-    time,
-    unu,
-    waifu2x,
-    fallback,
-  ]
-  for (const component of components) component(telegraf)
-}
+export const telegraf = new Telegraf(BOT_TOKEN!)
+require('./help')
+require('./ip')
+require('./json')
+require('./space')
+require('./start')
+require('./time')
+require('./unu')
+require('./waifu2x')
+require('./fallback')
 
 if (!IS_VERCEL) {
-  telegraf.webhookReply = false
+  telegraf.telegram.webhookReply = false
 
   telegraf.telegram.getMe().then((user) => {
     Object.assign(botInfo, user)
-    register()
     telegraf.launch()
   })
 }

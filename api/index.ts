@@ -1,12 +1,11 @@
-import { NowRequest, NowResponse } from '@vercel/node'
-import { telegraf, register } from '../src'
+import { VercelRequest, VercelResponse } from '@vercel/node'
+import { telegraf } from '../src'
 import { handlers, botInfo } from '../src/utils'
 
-export default async ({ body }: NowRequest, res: NowResponse) => {
+export default async ({ body }: VercelRequest, res: VercelResponse) => {
   handlers.response = res
 
   const user = await telegraf.telegram.getMe()
   Object.assign(botInfo, user)
-  register()
   return telegraf.handleUpdate(body, res)
 }
