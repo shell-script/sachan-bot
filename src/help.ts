@@ -9,24 +9,30 @@ telegraf.help((ctx) => {
 
   ctx.replyWithMarkdownV2(
     escape(outdent`
-      */ip* <IP>
+      */ip* <address>
       Get location data associated with a IP address.
 
       */json*
-      Get formatted JSON data of a message.
+      Get formatted JSON data of the next message.
 
-      */space* <Text>
+      */space* <text>
       Insert whitespaces between CJK and half-width characters.
 
-      */time* [Region]
+      */time* [region]
       Get date and time info of UTC, China and given region.
+      If no region is specified, time of all regions will be sent.
 
-      */unu* <Link>
+      */unu* <link>
       Shorten a link using \`u.nu\`.
 
       */waifu2x*
-      Upscale a photo using \`waifu2x\`.
+      Upscale the next photo using \`waifu2x\`.
       Max resolution of a scaled photo is 1600x1600.
+
+      */xkcd [number]*
+      View xkcd comics.
+      If no number is specified, the latest chapter will be sent.
+      To view a random comic, use */xkcd random*.
     `),
     extra
   )

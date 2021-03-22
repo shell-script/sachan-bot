@@ -11,6 +11,7 @@ require('./start')
 require('./time')
 require('./unu')
 require('./waifu2x')
+require('./xkcd')
 require('./fallback')
 
 if (!IS_VERCEL) {
