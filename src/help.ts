@@ -15,9 +15,6 @@ telegraf.help((ctx) => {
       */json*
       Get formatted JSON data of the next message.
 
-      */space* <text>
-      Insert whitespaces between CJK and half-width characters.
-
       */time* [region]
       Get date and time info of UTC, China and given region.
       If no region is specified, time of all regions will be sent.
