@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { telegraf } from '../src'
+import { telegraf, loadModules } from '../src'
 import { handlers, botInfo } from '../src/utils'
 
 export default async ({ body }: VercelRequest, res: VercelResponse) => {
@@ -7,5 +7,6 @@ export default async ({ body }: VercelRequest, res: VercelResponse) => {
 
   const user = await telegraf.telegram.getMe()
   Object.assign(botInfo, user)
+  loadModules()
   return telegraf.handleUpdate(body, res)
 }
